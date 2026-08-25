@@ -1,27 +1,79 @@
-# OIBSIP - Data Science Internship
+# Task 3 — Car Price Prediction with Machine Learning
 
-This repository contains all the tasks completed during my **Data Science Internship** at **Oasis Infobyte (OIBSIP)**.
+## 📌 Objective
+Build a regression model that predicts the **selling price of a used car**
+based on features such as brand, age, mileage, fuel type, and transmission.
 
-## 📁 Tasks
+## 📂 Dataset
+**Vehicle dataset from CarDekho** — 301 used-car listings scraped from
+cardekho.com, containing the car's name, manufacturing year, selling price,
+current showroom price, kilometers driven, fuel type, seller type,
+transmission, and number of previous owners.
 
-| Task No. | Project Name | Description |
-|----------|--------------|--------------|
-| Task 1 | [Iris Flower Classification](./Task-1-Iris-Flower-Classification) | Classifying iris flowers into species using ML |
-| Task 3 | Car Price Prediction | Predicting car prices using regression models |
-| Task 4 | Email Spam Detection | Classifying emails as spam or not spam using NLP |
+| Column | Description |
+|---|---|
+| `Car_Name` | Model name of the car |
+| `Year` | Year of manufacture |
+| `Selling_Price` | Price the current owner is asking (lakh INR) — **target variable** |
+| `Present_Price` | Current ex-showroom price of an equivalent new car (lakh INR) |
+| `Kms_Driven` | Total kilometers driven |
+| `Fuel_Type` | Petrol / Diesel / CNG |
+| `Seller_Type` | Dealer / Individual |
+| `Transmission` | Manual / Automatic |
+| `Owner` | Number of previous owners |
 
-## 🛠️ Tools & Technologies
-- Python
-- Pandas, NumPy
-- Matplotlib, Seaborn
-- Scikit-learn
-- Jupyter Notebook
+## 🛠️ Tech Stack
+Python · pandas · scikit-learn · matplotlib · seaborn · Jupyter Notebook
 
-## 📌 About the Internship
-Oasis Infobyte Data Science Internship focuses on real-world data science projects to strengthen practical machine learning and data analysis skills.
+## 🔍 Workflow
 
-## 🔗 Connect with Me
-- LinkedIn: www.linkedin.com/in/siddhi-salunkhe-2a3906335
+1. **Data Cleaning** — checked for nulls (none found), removed 2 duplicate
+   listings, normalized categorical text.
+2. **Feature Engineering** —
+   - `Car_Age` = 2020 − `Year`
+   - `Brand` = first word of `Car_Name`
+   - Dropped `Car_Name` and `Year` (redundant after engineering).
+3. **Exploratory Data Analysis** —
+   - Distribution of selling prices (right-skewed).
+   - Selling price vs. fuel type (Diesel resells highest).
+   - Selling price vs. car age (clear depreciation trend).
+   - Correlation heatmap (`Present_Price` most strongly correlated with `Selling_Price`).
+4. **Encoding** — one-hot encoded `Fuel_Type`, `Seller_Type`, `Transmission`, `Brand`.
+5. **Train/Test Split** — 80/20 split.
+6. **Modeling** — trained and compared:
+   - Linear Regression (baseline)
+   - Random Forest Regressor
+7. **Evaluation** — MAE, RMSE, R² for each model.
+8. **Feature Importance** — identified top drivers of price for the best model.
 
+## 📊 Results
 
-- GitHub: https://github.com/Siddhi-Salunkhe
+| Model | R² Score |
+|---|---|
+| Linear Regression | Baseline |
+| **Random Forest Regressor** | **Best performer** ✅ |
+
+The **Random Forest Regressor** outperformed Linear Regression on all metrics
+(higher R², lower MAE/RMSE). This is because the relationship between a car's
+age, mileage, and price isn't purely linear — depreciation curves flatten
+over time, and a tree-based ensemble captures that non-linearity without
+needing manually engineered interaction terms.
+
+**Top predictive features:** `Present_Price`, `Car_Age`, and `Kms_Driven`
+had the greatest influence on predicted selling price — a car's original
+showroom price anchors its resale value more than any other single factor.
+
+## 📁 Files in this folder
+- `[YourName]_Task3.ipynb` — full notebook (EDA, modeling, evaluation)
+- `car_data.csv` — dataset used
+- `README.md` — this file
+
+## ▶️ How to Run
+```bash
+pip install pandas scikit-learn matplotlib seaborn jupyter
+jupyter notebook
+```
+Open the notebook and run all cells top to bottom (`Restart Kernel & Run All`).
+
+---
+*Part of the Oasis Infobyte Data Science Internship (OIBSIP).*
