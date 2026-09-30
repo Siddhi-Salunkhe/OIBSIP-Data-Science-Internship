@@ -158,16 +158,16 @@ OIBSIP-Data-Science-Internship/
 Siddhi Salunkhe
 
 Computer Science Engineering Student
+
 ## 🚀 Live Project Demos
 
 ### 🌸 Task 1 — Iris Flower Classification
-🔗**[Live Demo](https://siddhi-iris-classification.streamlit.app)**
+🔗 **[Live Demo](https://siddhi-iris-classification.streamlit.app)**
 
-###  🚗Task-3-Car-Price-Prediction
+### 🚗 Task 3 — Car Price Prediction
 🔗 **[Live Demo](https://siddhi-car-price-prediction.streamlit.app)**
 
-### 📈 Task 5 – Sales Prediction
-Predict product sales based on advertising spending across TV, Radio, and Newspaper.
+### 📈 Task 5 — Sales Prediction
 🔗 **[Live Demo](https://siddhi-sales-prediction.streamlit.app)**
 
 
