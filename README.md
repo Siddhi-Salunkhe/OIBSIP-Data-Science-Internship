@@ -163,6 +163,10 @@ Computer Science Engineering Student
 ### 🌸 Task 1 — Iris Flower Classification
 [Live Demo](https://siddhi-iris-classification.streamlit.app)
 
+### 📈 Task 5 – Sales Prediction
+Predict product sales based on advertising spending across TV, Radio, and Newspaper.
+🔗 **[Live Demo](https://siddhi-sales-prediction.streamlit.app)**
+
 
 
 GitHub: https://github.com/Siddhi-Salunkhe
