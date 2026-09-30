@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 
@@ -9,10 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
 
-# --------------------------------------------------
-# Page Configuration
-# --------------------------------------------------
-
+# Page settings
 st.set_page_config(
     page_title="Iris Flower Classification",
     page_icon="🌸",
@@ -20,38 +16,25 @@ st.set_page_config(
 )
 
 
-# --------------------------------------------------
 # Title
-# --------------------------------------------------
-
 st.title("🌸 Iris Flower Classification")
 
 st.write(
-    "Predict the species of an Iris flower using "
-    "Machine Learning."
+    "Enter the flower measurements below to predict "
+    "the Iris flower species using Machine Learning."
 )
 
 st.markdown("---")
 
 
-# --------------------------------------------------
-# Load Dataset
-# --------------------------------------------------
-
+# Load Iris dataset
 iris = load_iris()
 
-X = pd.DataFrame(
-    iris.data,
-    columns=iris.feature_names
-)
-
+X = iris.data
 y = iris.target
 
 
-# --------------------------------------------------
-# Train-Test Split
-# --------------------------------------------------
-
+# Train-test split
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -61,20 +44,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 
-# --------------------------------------------------
-# Feature Scaling
-# --------------------------------------------------
-
+# Feature scaling
 scaler = StandardScaler()
 
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 
-# --------------------------------------------------
-# Train Model
-# --------------------------------------------------
-
+# Train Logistic Regression model
 model = LogisticRegression(
     max_iter=200,
     random_state=42
@@ -83,113 +60,125 @@ model = LogisticRegression(
 model.fit(X_train_scaled, y_train)
 
 
-# --------------------------------------------------
-# Model Accuracy
-# --------------------------------------------------
-
+# Model accuracy
 y_pred = model.predict(X_test_scaled)
 
-accuracy = accuracy_score(y_test, y_pred)
-
-
-# --------------------------------------------------
-# Sidebar
-# --------------------------------------------------
-
-st.sidebar.header("🌼 Flower Measurements")
-
-sepal_length = st.sidebar.slider(
-    "Sepal Length (cm)",
-    min_value=4.0,
-    max_value=8.0,
-    value=5.8,
-    step=0.1
-)
-
-sepal_width = st.sidebar.slider(
-    "Sepal Width (cm)",
-    min_value=2.0,
-    max_value=4.5,
-    value=3.0,
-    step=0.1
-)
-
-petal_length = st.sidebar.slider(
-    "Petal Length (cm)",
-    min_value=1.0,
-    max_value=7.0,
-    value=4.0,
-    step=0.1
-)
-
-petal_width = st.sidebar.slider(
-    "Petal Width (cm)",
-    min_value=0.1,
-    max_value=2.5,
-    value=1.2,
-    step=0.1
+accuracy = accuracy_score(
+    y_test,
+    y_pred
 )
 
 
-# --------------------------------------------------
-# Prediction
-# --------------------------------------------------
+# Input section
+st.subheader("🌼 Enter Flower Measurements")
 
-input_data = pd.DataFrame(
-    [[
-        sepal_length,
-        sepal_width,
-        petal_length,
-        petal_width
-    ]],
-    columns=iris.feature_names
-)
+col1, col2 = st.columns(2)
 
-input_scaled = scaler.transform(input_data)
+with col1:
+
+    sepal_length = st.number_input(
+        "Sepal Length (cm)",
+        min_value=0.0,
+        max_value=10.0,
+        value=5.1,
+        step=0.1
+    )
+
+    sepal_width = st.number_input(
+        "Sepal Width (cm)",
+        min_value=0.0,
+        max_value=10.0,
+        value=3.5,
+        step=0.1
+    )
 
 
+with col2:
+
+    petal_length = st.number_input(
+        "Petal Length (cm)",
+        min_value=0.0,
+        max_value=10.0,
+        value=1.4,
+        step=0.1
+    )
+
+    petal_width = st.number_input(
+        "Petal Width (cm)",
+        min_value=0.0,
+        max_value=10.0,
+        value=0.2,
+        step=0.1
+    )
+
+
+# Prediction button
 if st.button("🔮 Predict Iris Species"):
 
+    # Create input dataframe
+    input_data = pd.DataFrame(
+        [[
+            sepal_length,
+            sepal_width,
+            petal_length,
+            petal_width
+        ]],
+        columns=[
+            "sepal length (cm)",
+            "sepal width (cm)",
+            "petal length (cm)",
+            "petal width (cm)"
+        ]
+    )
+
+
+    # Scale input
+    input_scaled = scaler.transform(input_data)
+
+
+    # Prediction
     prediction = model.predict(input_scaled)[0]
 
     probabilities = model.predict_proba(input_scaled)[0]
 
-    predicted_species = iris.target_names[prediction]
+
+    # Species name
+    species = iris.target_names[prediction]
+
+
+    # Display result
+    st.markdown("---")
+
+    st.subheader("🌸 Prediction Result")
 
     st.success(
-        f"🌸 Predicted Species: **{predicted_species.title()}**"
+        f"Predicted Iris Species: **{species.title()}**"
     )
 
-    st.markdown("### Prediction Probability")
+
+    # Prediction probabilities
+    st.subheader("📊 Prediction Probabilities")
 
     probability_df = pd.DataFrame(
         {
             "Species": [
-                species.title()
-                for species in iris.target_names
+                name.title()
+                for name in iris.target_names
             ],
-            "Probability": probabilities
+            "Probability": [
+                f"{probability * 100:.2f}%"
+                for probability in probabilities
+            ]
         }
     )
 
-    probability_df["Probability"] = (
-        probability_df["Probability"] * 100
-    ).round(2)
-
-    st.dataframe(
-        probability_df,
-        use_container_width=True,
-        hide_index=True
-    )
+    st.table(probability_df)
 
 
-# --------------------------------------------------
-# Model Information
-# --------------------------------------------------
-
+# Model information
 st.markdown("---")
 
-st.subheader("📊 Model Information")
+st.subheader("🤖 Model Information")
 
 col1, col2 = st.columns(2)
 
@@ -206,24 +195,28 @@ with col2:
     )
 
 
-# --------------------------------------------------
-# Dataset Information
-# --------------------------------------------------
-
+# Dataset information
 st.markdown("---")
 
-st.subheader("📚 Dataset Information")
+st.subheader("📚 About the Dataset")
 
 st.write(
-    "The Iris dataset contains 150 samples belonging "
-    "to three species: Iris Setosa, Iris Versicolor, "
-    "and Iris Virginica."
+    "The Iris dataset contains measurements of iris flowers "
+    "including sepal length, sepal width, petal length, "
+    "and petal width."
 )
 
 st.write(
-    "The model uses four features: sepal length, "
-    "sepal width, petal length, and petal width."
+    "The model classifies the flower into one of three species:"
 )
+
+st.write(
+    "🌸 Setosa  |  🌸 Versicolor  |  🌸 Virginica"
+)
+
+
+# Footer
+st.markdown("---")
 
 st.caption(
     "OIBSIP Data Science Internship — Task 1"
