@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 import pandas as pd
 
@@ -228,4 +228,3 @@ st.write(
 st.caption(
     "OIBSIP Data Science Internship — Task 1"
 )
-```
