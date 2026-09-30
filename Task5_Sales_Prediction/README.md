@@ -3,6 +3,9 @@
 ## 📌 Objective
 Build a regression model that predicts **product sales** based on
 advertising spend across three media channels — TV, Radio, and Newspaper.
+## 🚀 Live Demo
+
+🔗 **[Launch Sales Prediction App](https://siddhi-sales-prediction.streamlit.app)**
 
 ## 📂 Dataset
 **Advertising dataset** — 200 markets, each with the advertising budget
