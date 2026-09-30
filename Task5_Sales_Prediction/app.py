@@ -36,8 +36,7 @@ st.markdown("---")
 # Load Dataset
 # --------------------------------------------------
 
-df = pd.read_csv("Advertising.csv", index_col=0)
-
+df = pd.read_csv("Task5_Sales_Prediction/Advertising.csv", index_col=0)
 
 # --------------------------------------------------
 # Features and Target
