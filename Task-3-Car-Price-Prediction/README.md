@@ -3,6 +3,9 @@
 ## 📌 Objective
 Build a regression model that predicts the **selling price of a used car**
 based on features such as brand, age, mileage, fuel type, and transmission.
+## 🚀 Live Demo
+
+🔗 **[Launch Car Price Prediction App](https://siddhi-car-price-prediction.streamlit.app)**
 
 ## 📂 Dataset
 **Vehicle dataset from CarDekho** — 301 used-car listings scraped from
